@@ -14,7 +14,7 @@ const responds =[["scrum","I'll scrum you!"],
 ["where is evan","doko dewa iwan arimasu ka?где же ваня?"]
 ];
 
-
+const youbi=["日","月","火","水","木","金","土"];
 
 
 const quotes=["one plus one is three for significantly large values of one",
@@ -121,8 +121,9 @@ setInterval(()=>{
             url: "https://discord.com"
         }]
     }
-).catch((error)=>{run_block()});
+)
 if(quotep&&(new Date().getHours()==8)){
+
  client.channels.cache.get(quotechannel).send(quotes[Math.floor(Math.random() * (quotes.length - 0) + 0)]);
  quotep=false;
 }
@@ -159,25 +160,7 @@ if(curr!=lastday){
 	 let c=0;
 	if(msg.content.includes("today's")&&(msg.content.includes("day?")||msg.content.includes("date?"))){
 		let day=new Date().getDay();
-		let resp="日";
-		if(day==1){
-			resp="月";
-		}
-		if(day==2){ 
-                        resp="火";
-                }
-		if(day==3){
-                        resp="水";
-                }
-		if(day==4){
-                        resp="木";
-                }
-		if(day==5){
-                        resp="金";
-                }
-		if(day==6){
-                        resp="土";
-                }
+		let resp=youbi[day]+"曜日";
 		msg.reply(resp).catch((error)=>{run_block()});
 		return;
 
