@@ -1,0 +1,8 @@
+#!/bin/sh
+pkill npm
+cd /home/server/Discord/DiscordBot
+while true
+do
+ npm run devStart >/home/server/Discord/DiscordBot/logfile.txt
+ cp /home/server/Discord/DiscordBot/logfile.txt /home/server/Discord/DiscordBot/logfile_prev.txt
+done
