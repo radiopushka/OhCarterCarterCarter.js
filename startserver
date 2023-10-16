@@ -1,0 +1,4 @@
+#!/bin/bash
+pkill startbot
+pkill npm
+/home/server/Discord/DiscordBot/startbot&
