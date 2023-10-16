@@ -1,5 +1,5 @@
 
-let quotechannel="1155073945700147206";
+let quotechannel="???";
 
 var lib=require("./AI");
 const {exec}=require("child_process");
