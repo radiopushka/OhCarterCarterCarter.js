@@ -1,0 +1,10 @@
+/learn "" ""
+	this command lets anyone on the server save response strings to key phrases, the keys must be at least 16 chars long
+	this command can have macros in the response like <date> or <quote> which will get replaced by the date or by a quote 
+	ex \learn "i need help carter" "well, as i always say: <quote>"
+/sendb
+	this command is only for mods and admins to pretend to be the bot
+/quote
+	this command send carter quotes
+/status
+	this command lets anyone cycle through the bot's status
