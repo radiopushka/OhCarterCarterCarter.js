@@ -1,130 +1,81 @@
-const responds =[["scrum","I'll scrum you!"],
-
-	["agile","nah man, up your game you are not agile"],
- ["i love anime","i want to cuddle with a cute anime shyojyo at the scrum meeting"],
-[ "hello","こにちわ！"],
-["hey bot?","yeah? what do you want, i am busy with the effort logger."],
-[" test ","heck yeah there will be a test you bet ya, thought this class was easy?"],
-[" carter ","hello there ;)"],
-["effort logger","psss... thats due Friday(金)"],
-["japanese?","what do you think? Learning Japanese is essential to understanding the Kanban System which is essential to becoming a scrum samurai.そういえば、 僕は良い日本語をできます。でも、 あなたは 日本語を言ますね？"],
-["due?","today! god, kids these days are so lazy, I have over 45 years of experience in software engineering practice, management, education, and research."],
-["honkai star rail","is that the game kids these days play?"],
-["incels","https://youtu.be/qzPKgTuRwbs?si=8s9ptIlls3yREaIN"],
-["where is evan","doko dewa iwan arimasu ka?где же ваня?"]
-];
-
-const youbi=["日","月","火","水","木","金","土"];
-
-
-const quotes=["one plus one is three for significantly large values of one",
-"That's a stupid thing to say, miss",
-"what's you or what's the computer... it's the future",
-"This elephant sniffs on you and…",
-"press the space bar with your toe",
-"I was just trying to get my golf stroke improved, and I click on this thing, and up comes this piece of porn!",
-"Granddad I love you dearly, but I'm more interested in art",
-"i encourage you all to get good at python, just like chinese and spanish",
-"One day in India I was given a lovely silver coin",
-"My flight is about to departing.",
-"Some of the sexiest movies don't show any boobs or anything else",
-"i don't trust any institution; i trust individuals",
-"Great technology must deliver much more than just a tactical advantage in the marketplace. Society needs strategically sustainable, secure, and useful system solutions, worthy of trust, that typically depend upon a complex ecosystem of organizations and professionals. This ecosystem must be able to ethically design, develop, deliver, operate, support, sustain, and enhance solutions of great societal value. Crucial systems quality attributes must include security, privacy, and reliability, while being worthy of trust. It is no longer good enough for academics to assert that they deliver graduates with knowledge of enduring value, or for businesspeople to say our employees have best college credentials. Our workforce must have and be able to effectively and ethically leverage and employ the knowledge, skills, abilities, behaviors, tools, technologies, supervision, leadership, and organizational culture needed to serve society, especially in times of overload and stress. This is only possible when all key stakeholders create a safe, healthy, and sustainable environment for excellent performance, continuous improvement, and respect for the contribution of all the incredibly diverse workers needed at every level.",
-"Whoaaa that's freaky!",
-"it's real easy to make children",
-"How many counting programs do you think have been written?",
-"It's interesting how the brain says one thing and the fingers say something else",
-"some of you are going to find out how little this professor actually knows",
-"I'm not buying new tools for you",
-"mental midgets",
-"Have you ever been blessed by an Indian Elephant?",
-"We need to understand the pots of gold out there that maybe took some time and pain how to discover and how to leverage. And we need to recognize the black holes, and lets be very clear where the event horizon is, because once you cross over that line, there be dragons.",
-"Oh, finally, a human!",
-"Breathe in, breathe out. You're gonna die!",
-"If you think this field is all fun and games, it is",
-"I’ll share my notes for you for $100",
-"'But professor, the text book says that: Users of agile methods claim that detailed design documentation is mostly unused. It is, therefore, a waste of time and money to develop these documents. I largely agree with this view, and I think that, except for critical systems, it is not worth developing a detailed architectural description from Krutchen’s four perspectives. You should develop the views that are useful for communication and not worry about whether or not your architectural documentation is complete.' and so I said in return, stop being an ass.",
-];
 
 let quotechannel="1155073945700147206";
 
-const actes=[
-"boomer revival 2.0",
-"nihongo wo benkyou",
-"scrum meeting",
-"exploring nagoya",
-"divorce court",
-"sleeping",
-"Agile.js",
-"reading a book",
-"yelling at son",
-"DOOM",
-"Quake 3",
-"Дачный проспект II",
-"Moscow Gopnik Simulator",
-"食用系少女 you can eat the 彼女",
-"Age of Empires II",
-"Honkai Star Rail",
-"Skibidi Toilet 2",
-"yelling at students",
-"Java FX",
-"Fidelity BerryStonks",
-"ebayno店",
-];
-
+var lib=require("./AI");
+const {exec}=require("child_process");
 
 require('dotenv').config()
-run_block();
-function run_block(){
-console.log("running/reset");
-try{
-runserv();
 
-}catch(error){
-console.log(error);
-run_block();
-}
-}
+const taskfile="misc/acts";
+const quotefile="misc/quotes";
+const aifile="misc/carter_quotes";
+const fileh="misc/help";
 
-function runserv(){
+
+
+let sensitivity=0.4;
+
+
+process.on('uncaughtException',function(err){
+	console.log(err);
+//	process.exit();
+exec("pkill npm");
+});
+
+
+
 const Discord=require('discord.js')
 const client=new Discord.Client({intents: [
   Discord.GatewayIntentBits.Guilds,
   Discord.GatewayIntentBits.GuildMessages,
   Discord.GatewayIntentBits.MessageContent,
   Discord.GatewayIntentBits.GuildMembers,
-
 ],});
-//client.channels.fetch();
+
+function get_quote(){
+	let pres=[];
+	lib.file_to_array(pres,quotefile);
+	return pres[Math.floor(Math.random()*pres.length)];
+}
+
+function getDay(){
+	let youbi=["日","月","火","水","木","金","土"];
+	let day=new Date().getDay();
+	let resp=youbi[day]+"曜日";
+	return resp;
+}
+
+
+function set_pres(){
+	let pres=[];
+	lib.file_to_array(pres,taskfile);
+	let sel=pres[Math.floor(Math.random()*pres.length)];
+
+	client.user?.setPresence(
+	{
+        	status: "online",
+        	activities:[ {
+            		name: `${sel}`,
+            		type: Discord.ActivityType.Streaming, 
+            		url: "https://discord.com"
+        		}]
+    		}
+	);
+
+}
+
+
+
 client.on("ready",()=>{
- const namae=actes[Math.floor(Math.random() * (actes.length - 0) + 0)];
-client.user?.setPresence(
-{
-        status: "online",
-        activities:[ {
-            name: `${namae}`,
-            type: Discord.ActivityType.Streaming, 
-            url: "https://discord.com"
-        }]
-    }
-);
+set_pres();
+console.log("online");
 })
 let quotep=true;
 setInterval(()=>{
-  const namae=actes[Math.floor(Math.random() * (actes.length - 0) + 0)];
- client.user?.setPresence(
-{
-        status: "online",
-        activities:[ {
-            name: `${namae}`,
-            type: Discord.ActivityType.Streaming,
-            url: "https://discord.com"
-        }]
-    }
-)
+set_pres();
 if(quotep&&(new Date().getHours()==8)){
 
- client.channels.cache.get(quotechannel).send(quotes[Math.floor(Math.random() * (quotes.length - 0) + 0)]);
+ client.channels.cache.get(quotechannel).send(get_quote());
  quotep=false;
 }
 if(new Date().getHours()!=8){
@@ -137,51 +88,118 @@ let lastday=1+(new Date().getDate());
 client.on(Discord.Events.MessageCreate,msg => {
  if(msg.author.bot)return;
  let date=new Date();
- let curr=lastday;
-// console.log(msg.member.displayHexColor);
-if(msg.member.displayHexColor=="#2f676d"||msg.member.displayHexColor=="#2ecc71"){
- if(msg.content.includes("/sendb")){
-  let cont=msg.content.replace("/sendb","");
- //msg.channel.send(msg.content.replace("/sendb",""));
- // console.log(msg.content+"  :=by- "+msg.author.tag+" ");
-  if(msg.member.displayHexColor=="#2f676d"){
-   cont=cont+"\n```diff\n---"+msg.author.tag+"\n```"; 
+ let curr=date.getDate();
+ if(msg.member.displayHexColor=="#2f676d"||msg.member.displayHexColor=="#2ecc71"){
+  if(msg.content.includes("/sendb")){
+   let cont=msg.content.replace("/sendb","");
+   if(msg.member.displayHexColor=="#2f676d"){
+    cont=cont+"\n```diff\n---"+msg.author.tag+"\n```"; 
+   }
+   msg.channel.send(cont)
+   msg.delete()
+   return;
   }
-  msg.channel.send(cont).catch((error)=>{run_block()});
-  msg.delete().catch((error)=>{run_block()});
-  return;
- }
-} 
-if(curr!=lastday){
-   msg.reply(quotes[Math.floor(Math.random() * (quotes.length - 0) + 0)]);
+ } 
+ if(curr!=lastday){
+   msg.reply(get_quote());
    lastday=curr;
 	return;
  }else{
-	 let c=0;
-	if(msg.content.includes("today's")&&(msg.content.includes("day?")||msg.content.includes("date?"))){
-		let day=new Date().getDay();
-		let resp=youbi[day]+"曜日";
-		msg.reply(resp).catch((error)=>{run_block()});
-		return;
-
-
-
-
-	}
-         if(msg.content.includes("/quote")){
-		msg.reply(quotes[Math.floor(Math.random() * (quotes.length - 0) + 0)]+"").catch((error)=>{run_block()});
-		//msg.reply(":carter_time:");
-		return;
-         }
-	 while(c<responds.length){
- 		if(msg.content.toLowerCase().includes(responds[c][0])){
-                         msg.reply(responds[c][1]).catch((error)=>{run_block()});
-  		}
-		 c=c+1;
-	 }
+    if(msg.content.trimStart().charAt(0)=='/'){
+	msg.reply(handle_command(msg.content.trimStart().trimEnd()));
+    }else{
+	get_replied_msg(msg);
+    }
  }
 });
 
 
-client.login(process.env.BOT_TOKEN).catch((error)=>{run_block()})
+client.login(process.env.BOT_TOKEN);
+
+function is_msg_neg(msg){
+	if(msg.author.bot){return false;}
+	let content=msg.content.toLowerCase();
+	if(content=="wrong"||content.includes("incorrect")||content.includes("wtf")||content.includes("s wrong")||(content.includes("t make sense")&&content.includes("doesn"))){
+		return !content.includes("not");
+	}
 }
+
+function ai_resp(msg){
+	let resp=lib.generate_response(msg.content,aifile,sensitivity);
+	if(resp!=null){
+                resp=resp.replaceAll("<date>",getDay());
+                resp=resp.replaceAll("<quote>",get_quote());
+                msg.reply(resp);
+		return true;
+        }
+	return false;
+}
+
+function handle_command(command){
+	let cmd=command;
+	if(cmd.includes(" ")){
+		cmd=command.substring(0,command.indexOf(" "));
+	}
+	if(cmd=="/quote"){
+		return get_quote();
+	}
+	if(cmd=="/learn"){
+		return "this command is now disabled, the bot learns by itself when you reply to other's messages";
+		let parse=command.replaceAll("[","").replaceAll("]","").replaceAll("{","").replaceAll("}","").split("\"");
+		if(parse.length!=5){
+			return "command /learn takes two strings (\"\") where /learn <key> <phrase>";
+		}
+		let st1=lib.sanitize_string(parse[1]);
+		let st2=parse[3];
+		if(st1.length<16||lib.sanitize_string(st2).length<16){
+			return "key prase and response must both be at least 16 characters long";
+		}
+		lib.add_key(st1,st2,aifile);
+		return "saved";
+	}
+	if(cmd=="/help"){
+		return lib.readFile(fileh);
+        }
+	if(cmd=="/status"){
+		set_pres();
+		return "noted";
+	}
+return "command not found /help";
+}
+function get_replied_msg(ormsg){
+	let rep=19;
+	if(ormsg.type!=rep){
+		process_message(null,ormsg);
+		return null;
+	}
+	ormsg.fetchReference();
+	if(ormsg.reference==null){return null;}
+	if(ormsg.reference.messageId==null){return null;}	
+	let othermsg=ormsg.channel.messages.fetch(ormsg.reference.messageId);
+	othermsg.then((inputed)=>{process_message(inputed,ormsg);});
+	return null;
+}
+
+
+
+function process_message(rmsg,msg){
+	if(rmsg!=null){
+                if(rmsg.author.bot&&is_msg_neg(msg)){
+			lib.removeWord(aifile,rmsg.content);
+			msg.reply("thank you very much for your feedback and helping the AI learn.");
+                }else{
+                        if((!rmsg.author.bot)&&(!ai_resp(msg))){
+                                let key=lib.sanitize_string(rmsg.content);
+                                let phrase=msg.content;
+                                if(key.length>11&&lib.sanitize_string(phrase).length>11&&rmsg.author.id!=msg.author.id){
+                                        lib.add_key(key,phrase,aifile);
+                                }
+                        }
+
+                }
+        }else{
+                ai_resp(msg);
+        }
+
+}
+
